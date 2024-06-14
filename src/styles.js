@@ -48,11 +48,13 @@ export const navArrowsStyle = css({
   top: "50%",
   transform: "translateY(-50%)",
   zIndex: 1300,
-  padding: "0 20px", // Add padding to the left and right
+  padding: "0 20px",
+  pointerEvents: "none",
 });
 
 export const navButtonStyle = css({
   backgroundColor: "#f0f0f0",
+  pointerEvents: "auto",
 });
 
 export const dotContainerStyle = css({
@@ -104,9 +106,17 @@ export const modalStyle = css({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
+  maxWidth: "800px",
+  height: "80%",
+  maxHeight: "600px",
   backgroundColor: "white",
   border: "2px solid #000",
   boxShadow: 24,
   padding: "16px",
+  overflowY: "auto",
+});
+
+export const copyBlockContainerStyle = css({
+  justifyContent: "center",
 });

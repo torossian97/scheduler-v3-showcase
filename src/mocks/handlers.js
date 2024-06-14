@@ -1,4 +1,9 @@
 import { http, HttpResponse } from "msw";
+import { configurations } from "./configurations";
+import { bookings } from "./bookings";
+
+// Helper function to generate unique booking IDs
+const generateId = () => `booking-${Math.random().toString(36).substr(2, 9)}`;
 
 export const handlers = [
   // Intercept "GET https://example.com/user" requests...
@@ -81,6 +86,113 @@ export const handlers = [
     }
   ),
 
+  // GET /ui-settings
+  http.get("https://api-staging.us.nylas.com/v3/scheduling/ui-settings", () => {
+    // ...and respond to them using this JSON response.
+    return HttpResponse.json({
+      id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d",
+      firstName: "John",
+      lastName: "Maverick",
+    });
+  }),
+
+  // POST /v3/scheduling/bookings
+  http.post(
+    "https://api-staging.us.nylas.com/v3/scheduling/bookings",
+    async ({ request }) => {
+      let requestBody;
+      try {
+        requestBody = await request.json();
+      } catch (error) {
+        return HttpResponse.json(
+          { error: "Invalid JSON in request body" },
+          { status: 400 }
+        );
+      }
+
+      const { guest, start_time, end_time } = requestBody;
+      if (!guest || !guest.email || !guest.name || !start_time || !end_time) {
+        return HttpResponse.json(
+          { error: "Missing required fields" },
+          { status: 400 }
+        );
+      }
+
+      const newBooking = {
+        id: generateId(),
+        email: guest.email,
+        name: guest.name,
+        start_time,
+        end_time,
+        status: "confirmed",
+      };
+
+      bookings.push(newBooking);
+
+      return HttpResponse.json({
+        request_id: "booking-request-id",
+        data: newBooking,
+      });
+    }
+  ),
+
+  // PUT /v3/scheduling/bookings/:booking_id
+  http.put(
+    "https://api-staging.us.nylas.com/v3/scheduling/bookings/:booking_id",
+    async ({ request, params }) => {
+      const { booking_id } = params;
+      let requestBody;
+
+      try {
+        requestBody = await request.json();
+      } catch (error) {
+        return HttpResponse.json(
+          { error: "Invalid JSON in request body" },
+          { status: 400 }
+        );
+      }
+
+      const bookingIndex = bookings.findIndex(
+        (booking) => booking.id === booking_id
+      );
+      if (bookingIndex === -1) {
+        return HttpResponse.json(
+          { error: "Booking not found" },
+          { status: 404 }
+        );
+      }
+
+      bookings[bookingIndex] = { ...bookings[bookingIndex], ...requestBody };
+
+      return HttpResponse.json({
+        request_id: "booking-update-request-id",
+        data: bookings[bookingIndex],
+      });
+    }
+  ),
+
+  // DELETE /v3/scheduling/bookings/:booking_id
+  http.delete(
+    "https://api-staging.us.nylas.com/v3/scheduling/bookings/:booking_id",
+    ({ params }) => {
+      const { booking_id } = params;
+
+      const bookingIndex = bookings.findIndex(
+        (booking) => booking.id === booking_id
+      );
+      if (bookingIndex === -1) {
+        return HttpResponse.json(
+          { error: "Booking not found" },
+          { status: 404 }
+        );
+      }
+
+      bookings.splice(bookingIndex, 1);
+
+      return HttpResponse.json({ request_id: "booking-delete-request-id" });
+    }
+  ),
+
   // GET /calendars
   http.get("https://api.us.nylas.com/v3/grants/me/calendars", ({ request }) => {
     const headers = request.headers;
@@ -92,7 +204,6 @@ export const handlers = [
       console.log(`${key}: ${value}`);
     });
 
-    // Mock response based on the API reference
     const mockResponse = {
       request_id: "5fa64c92-e840-4357-86b9-2aa364d35b88",
       data: [
@@ -136,26 +247,46 @@ export const handlers = [
     return HttpResponse.json(mockResponse);
   }),
 
-  // PUT /configurations
-
-  http.put(
-    "https://api.us.nylas.com/v3/grants/me/scheduling/configurations/:configuration_id",
-    async ({ request, params }) => {
-      const headers = request.headers;
-      const { configuration_id } = params;
-      headers.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
+  // GET configurations
+  http.get(
+    "https://api.us.nylas.com/v3/grants/me/scheduling/configurations",
+    () => {
+      return HttpResponse.json({
+        request_id: "5de05a53-2e61-4cd2-8b1d-57da9ef701e1",
+        data: configurations,
       });
+    }
+  ),
 
-      if (!configuration_id) {
+  // GET specific configuration
+  http.get(
+    "https://api.us.nylas.com/v3/grants/me/scheduling/configurations/:configuration_id",
+    ({ params }, res, ctx) => {
+      const { configuration_id } = params;
+      const configuration = configurations.find(
+        (config) => config.id === configuration_id
+      );
+
+      if (!configuration) {
         return HttpResponse.json(
-          { error: "Missing configuration_id parameter" },
-          { status: 400 }
+          { error: "Configuration not found" },
+          { status: 404 }
         );
       }
 
-      // Assuming the request body contains the configuration data
-      let requestBody = "";
+      return HttpResponse.json({
+        request_id: "unique-request-id",
+        data: configuration,
+      });
+    }
+  ),
+
+  // PUT configuration
+  http.put(
+    "https://api.us.nylas.com/v3/grants/me/scheduling/configurations/:configuration_id",
+    async ({ request, params }) => {
+      const { configuration_id } = params;
+      let requestBody;
 
       try {
         requestBody = await request.text();
@@ -167,168 +298,75 @@ export const handlers = [
         );
       }
 
-      // Mock response based on the assumption that the configuration is updated
-      const mockResponse = {
+      let configIndex = configurations.findIndex(
+        (config) => config.id === configuration_id
+      );
+      if (configIndex === -1) {
+        return HttpResponse.json(
+          { error: "Configuration not found" },
+          { status: 404 }
+        );
+      }
+
+      configurations[configIndex] = { id: configuration_id, ...requestBody };
+
+      return HttpResponse.json({
         request_id: "ddd35e13-a538-43d7-ac82-a688404949d5",
-        data: {
-          id: configuration_id,
-          ...requestBody,
-        },
-      };
-
-      return HttpResponse.json(mockResponse);
+        data: configurations[configIndex],
+      });
     }
   ),
 
-  // GET_ALL configurations
-  http.get(
+  // POST configuration
+  http.post(
     "https://api.us.nylas.com/v3/grants/me/scheduling/configurations",
-    ({ request }) => {
-      const headers = request.headers;
-      const params = new URL(request.url).searchParams;
-      headers.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-      params.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
+    async ({ request }) => {
+      let requestBody;
 
-      // Mock response based on the API reference
-      const mockResponse = {
-        request_id: "5de05a53-2e61-4cd2-8b1d-57da9ef701e1",
-        data: [
-          {
-            id: "ada2cb00-4996-4c0b-874d-00632b215c85",
-            version: "1.0.0",
-            participants: [
-              {
-                email: "antoine.torossian@nylas.com",
-                is_organizer: true,
-                name: "antoine.torossian@nylas.com",
-                availability: {
-                  calendar_ids: ["primary"],
-                },
-                booking: {
-                  calendar_id: "antoine.torossian@nylas.com",
-                },
-              },
-            ],
-            requires_session_auth: false,
-            availability: {
-              duration_minutes: 20,
-              interval_minutes: 20,
-              round_to: 20,
-              availability_rules: {
-                availability_method: "collective",
-                buffer: {
-                  before: 0,
-                  after: 0,
-                },
-                default_open_hours: [
-                  {
-                    days: [1, 2, 3, 4, 6],
-                    exdates: null,
-                    timezone: "America/Vancouver",
-                    start: "09:00",
-                    end: "17:00",
-                  },
-                  {
-                    days: [5],
-                    exdates: null,
-                    timezone: "America/Vancouver",
-                    start: "09:13",
-                    end: "17:00",
-                  },
-                ],
-                round_robin_group_id: "",
-              },
-            },
-            event_booking: {
-              title: "New meeting with rounding",
-              timezone: "America/Vancouver",
-              booking_type: "booking",
-              hide_participants: null,
-              disable_emails: null,
-            },
-            scheduler: {
-              available_days_in_future: 30,
-              min_cancellation_notice: 0,
-              min_booking_notice: 60,
-              rescheduling_url:
-                "https://cal.nylas.com/scheduler/reschedule/:booking_ref",
-              cancellation_url:
-                "https://cal.nylas.com/scheduler/cancel/:booking_ref",
-              hide_rescheduling_options: true,
-              hide_cancellation_options: false,
-              hide_additional_guests: true,
-              cancellation_policy: "Please tell me why you're leaving me!",
-            },
-          },
-          {
-            id: "0bbf9f43-5abc-430d-a2cc-778e4012950a",
-            version: "1.0.0",
-            participants: [
-              {
-                email: "antoine.torossian@nylas.com",
-                is_organizer: true,
-                name: "Antoine Torossian",
-                availability: {
-                  calendar_ids: ["primary"],
-                },
-                booking: {
-                  calendar_id: "antoine.torossian@nylas.com",
-                },
-              },
-            ],
-            requires_session_auth: false,
-            availability: {
-              duration_minutes: 30,
-              interval_minutes: 30,
-              availability_rules: {
-                availability_method: "collective",
-                buffer: {
-                  before: 0,
-                  after: 0,
-                },
-                default_open_hours: [
-                  {
-                    days: [1, 2, 3, 4, 5],
-                    exdates: null,
-                    timezone: "America/Vancouver",
-                    start: "09:00",
-                    end: "17:00",
-                  },
-                ],
-                round_robin_group_id: "",
-              },
-            },
-            event_booking: {
-              title: "My new event!",
-              timezone: "America/Vancouver",
-              booking_type: "booking",
-              hide_participants: null,
-              disable_emails: null,
-            },
-            scheduler: {
-              available_days_in_future: 30,
-              min_cancellation_notice: 0,
-              min_booking_notice: null,
-            },
-          },
-        ],
-      };
+      try {
+        requestBody = await request.text();
+        requestBody = JSON.parse(requestBody);
+      } catch (error) {
+        return HttpResponse.json(
+          { error: "Invalid JSON in request body" },
+          { status: 400 }
+        );
+      }
 
-      return HttpResponse.json(mockResponse);
+      const newConfig = {
+        id: (Math.random() * 1000000).toString(),
+        ...requestBody,
+      }; // Mock ID generation
+      configurations.push(newConfig);
+
+      return HttpResponse.json({
+        request_id: "aaa35e13-a538-43d7-ac82-a688404949d5",
+        data: newConfig,
+      });
     }
   ),
 
-  // GET /ui-settings
-  http.get("https://api-staging.us.nylas.com/v3/scheduling/ui-settings", () => {
-    // ...and respond to them using this JSON response.
-    return HttpResponse.json({
-      id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d",
-      firstName: "John",
-      lastName: "Maverick",
-    });
-  }),
+  // DELETE configuration
+  http.delete(
+    "https://api.us.nylas.com/v3/grants/me/scheduling/configurations/:configuration_id",
+    ({ params }) => {
+      const { configuration_id } = params;
+
+      const configIndex = configurations.findIndex(
+        (config) => config.id === configuration_id
+      );
+      if (configIndex === -1) {
+        return HttpResponse.json(
+          { error: "Configuration not found" },
+          { status: 404 }
+        );
+      }
+
+      configurations.splice(configIndex, 1);
+
+      return HttpResponse.json({
+        request_id: "aaa35e13-a538-43d7-ac82-a688404949d5",
+      });
+    }
+  ),
 ];

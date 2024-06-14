@@ -1,7 +1,17 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import {
+  NylasSchedulerEditor,
+  NylasBookingCalendarPicker,
+  NylasEventInfo,
+  NylasEventTitle,
+  NylasAvailabilityPicker,
+} from "@nylas/react";
+import CustomIdentityRequestWrapper from "../mocks/custom";
 
 const UseCase4 = () => {
+  const nylasApiRequest = new CustomIdentityRequestWrapper("MOCK_ACCESS_TOKEN");
+
   return (
     <Box
       sx={{
@@ -12,7 +22,27 @@ const UseCase4 = () => {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">Description for Use Case 4</Typography>
+      <NylasSchedulerEditor
+        nylasApiRequest={nylasApiRequest}
+        mode="composable"
+        configurationId="page-1"
+        eventOverrides={{}}
+      >
+        <div
+          style={{
+            height: "550px", // Whatever height they want to set it to
+            overflowY: "scroll",
+          }}
+        >
+          <NylasBookingCalendarPicker />
+          <NylasEventInfo>
+            <div slot="inputs">
+              <NylasEventTitle />
+            </div>
+          </NylasEventInfo>
+          <NylasAvailabilityPicker />
+        </div>
+      </NylasSchedulerEditor>
     </Box>
   );
 };

@@ -22,7 +22,6 @@ const UseCase1 = () => {
           },
         }}
         defaultSchedulerState={{
-          nylasBranding: false,
           // availability: [
           //   {
           //     emails: ["antoine.torossian@nylas.com"],

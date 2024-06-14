@@ -1,6 +1,6 @@
 export let configurations = [
   {
-    id: "ada2cb00-4996-4c0b-874d-00632b215c85",
+    id: "page-1",
     version: "1.0.0",
     participants: [
       {
@@ -66,7 +66,7 @@ export let configurations = [
     },
   },
   {
-    id: "0bbf9f43-5abc-430d-a2cc-778e4012950a",
+    id: "page-2",
     version: "1.0.0",
     participants: [
       {

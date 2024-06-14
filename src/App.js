@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   CssBaseline,
   AppBar,
@@ -13,11 +13,13 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CodeIcon from "@mui/icons-material/Code";
-import { CopyBlock, dracula } from "react-code-blocks";
+import { CodeBlock, dracula } from "react-code-blocks";
 import UseCase1 from "./pages/UseCase1";
 import UseCase2 from "./pages/UseCase2";
 import UseCase3 from "./pages/UseCase3";
 import UseCase4 from "./pages/UseCase4";
+import UseCase5 from "./pages/UseCase5";
+import UseCase6 from "./pages/UseCase6";
 import {
   rootStyle,
   appBarStyle,
@@ -32,7 +34,16 @@ import {
   sectionContentStyle,
   fabStyle,
   modalStyle,
+  copyBlockContainerStyle,
 } from "./styles";
+
+/* eslint import/no-webpack-loader-syntax: off */
+import useCase1Code from "!!raw-loader!./pages/UseCase1.js";
+import useCase2Code from "!!raw-loader!./pages/UseCase2.js";
+import useCase3Code from "!!raw-loader!./pages/UseCase3.js";
+import useCase4Code from "!!raw-loader!./pages/UseCase4.js";
+import useCase5Code from "!!raw-loader!./pages/UseCase5.js";
+import useCase6Code from "!!raw-loader!./pages/UseCase6.js";
 
 const sections = [
   {
@@ -40,65 +51,37 @@ const sections = [
       "This is the v3 Nylas Scheduler, a set of components designed for native scheduling experiences. The Scheduling component handles bookings...",
     description: "",
     Component: UseCase1,
-    code: `<Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="body1">Description for Use Case 1</Typography>
-    </Box>`,
+    code: useCase1Code,
   },
   {
     title: "...while the Scheduler Editor allows users to manage their pages.",
     description: "",
     Component: UseCase2,
-    code: `<Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="body1">Description for Use Case 2</Typography>
-    </Box>`,
+    code: useCase2Code,
   },
   {
     title: "Both can be fully styled through CSS...",
     description: "",
     Component: UseCase3,
-    code: `<Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="body1">Description for Use Case 3</Typography>
-    </Box>`,
+    code: useCase3Code,
   },
   {
     title: "...or customized using composable mode and event overrides.",
     description: "",
     Component: UseCase4,
-    code: `<Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="body1">Description for Use Case 4</Typography>
-    </Box>`,
+    code: useCase4Code,
+  },
+  {
+    title: "CRM example",
+    description: "",
+    Component: UseCase5,
+    code: useCase5Code,
+  },
+  {
+    title: "One-off invite",
+    description: "",
+    Component: UseCase6,
+    code: useCase6Code,
   },
 ];
 
@@ -202,14 +185,15 @@ function App() {
             <Typography id="modal-title" variant="h6" component="h2">
               Code Example
             </Typography>
-            <CopyBlock
-              language={"jsx"}
-              text={sections[currentSection].code}
-              showLineNumbers={true}
-              theme={dracula}
-              wrapLines={true}
-              codeBock
-            />
+            <div css={copyBlockContainerStyle}>
+              <CodeBlock
+                language={"jsx"}
+                text={sections[currentSection].code}
+                showLineNumbers={true}
+                theme={dracula}
+                wrapLines={true}
+              />
+            </div>
           </Box>
         </Modal>
       </main>
