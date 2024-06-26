@@ -23,9 +23,11 @@ const UseCase2 = () => {
         /*nylasSessionsConfig={{
           clientId: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX",
           redirectUri: `${window.location.origin}`,
-          domain: "https://api-staging.us.nylas.com/v3",
+          domain: "https://api.us.nylas.com/v3",
           hosted: true,
         }}*/
+
+        // Set the default state to have the defaults you want when users create a new configuration / page
         defaultSchedulerConfigState={{
           selectedConfiguration: {
             requires_session_auth: false, // Set to 'false' to create a public configuration

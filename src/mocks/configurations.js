@@ -4,14 +4,14 @@ export let configurations = [
     version: "1.0.0",
     participants: [
       {
-        email: "antoine.torossian@nylas.com",
+        email: "johndoe@example.com",
         is_organizer: true,
-        name: "Antoine Torossian",
+        name: "John Doe",
         availability: {
           calendar_ids: ["primary"],
         },
         booking: {
-          calendar_id: "antoine.torossian@nylas.com",
+          calendar_id: "johndoe@example.com",
         },
       },
     ],
@@ -70,14 +70,14 @@ export let configurations = [
     version: "1.0.0",
     participants: [
       {
-        email: "antoine.torossian@nylas.com",
+        email: "johndoe@example.com",
         is_organizer: true,
-        name: "Antoine Torossian",
+        name: "John Doe",
         availability: {
           calendar_ids: ["primary"],
         },
         booking: {
-          calendar_id: "antoine.torossian@nylas.com",
+          calendar_id: "johndoe@example.com",
         },
       },
     ],
@@ -121,9 +121,9 @@ export let configurations = [
     version: "1.0.0",
     participants: [
       {
-        email: "bob@example.com",
+        email: "johndoe@example.com",
         is_organizer: true,
-        name: "Bobby Bill",
+        name: "John Doe",
         availability: {
           calendar_ids: ["primary"],
         },

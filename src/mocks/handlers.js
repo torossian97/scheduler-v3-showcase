@@ -9,7 +9,7 @@ const findConfigurationById = (id) =>
 
 export const handlers = [
   http.get(
-    "https://api-staging.us.nylas.com/v3/scheduling/availability",
+    "https://api.us.nylas.com/v3/scheduling/availability",
     ({ request }) => {
       const params = new URL(request.url).searchParams;
 
@@ -98,7 +98,7 @@ export const handlers = [
 
   // GET /v3/scheduling/ui-settings
   http.get(
-    "https://api-staging.us.nylas.com/v3/scheduling/ui-settings",
+    "https://api.us.nylas.com/v3/scheduling/ui-settings",
     ({ request }) => {
       const params = new URL(request.url).searchParams;
       const configurationId = params.get("configuration_id");
@@ -151,7 +151,7 @@ export const handlers = [
 
   // POST /v3/scheduling/bookings
   http.post(
-    "https://api-staging.us.nylas.com/v3/scheduling/bookings",
+    "https://api.us.nylas.com/v3/scheduling/bookings",
     async ({ request }) => {
       let requestBody;
       try {
@@ -195,7 +195,7 @@ export const handlers = [
 
   // PUT /v3/scheduling/bookings/:booking_id
   http.put(
-    "https://api-staging.us.nylas.com/v3/scheduling/bookings/:booking_id",
+    "https://api.us.nylas.com/v3/scheduling/bookings/:booking_id",
     async ({ request, params }) => {
       const { booking_id } = params;
       let requestBody;
@@ -230,7 +230,7 @@ export const handlers = [
 
   // DELETE /v3/scheduling/bookings/:booking_id
   http.delete(
-    "https://api-staging.us.nylas.com/v3/scheduling/bookings/:booking_id",
+    "https://api.us.nylas.com/v3/scheduling/bookings/:booking_id",
     ({ params }) => {
       const { booking_id } = params;
 

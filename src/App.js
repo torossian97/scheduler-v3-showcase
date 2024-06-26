@@ -18,7 +18,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MenuIcon from "@mui/icons-material/Menu";
 import CodeIcon from "@mui/icons-material/Code";
-import { CodeBlock, dracula } from "react-code-blocks";
+import { CopyBlock, CodeBlock, dracula } from "react-code-blocks";
 import {
   rootStyle,
   appBarStyle,
@@ -295,7 +295,6 @@ function App() {
                 text={sections[currentSection].code}
                 showLineNumbers={true}
                 theme={dracula}
-                wrapLines={true}
               />
             </div>
           </Box>

@@ -123,8 +123,8 @@ const UseCase4 = () => {
         <>
           <NylasScheduling
             key={selectedParticipant.configId} // Use key prop to force re-render
+            // Enable composable mode,
             mode="composable"
-            schedulerApiUrl="https://api-staging.us.nylas.com"
             configurationId={selectedParticipant.configId}
             eventOverrides={{
               timeslotConfirmed: (event, connector) => {

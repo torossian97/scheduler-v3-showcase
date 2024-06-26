@@ -29,21 +29,8 @@ const UseCase3 = () => {
     >
       <NylasScheduling
         css={schedulingStyles}
-        schedulerApiUrl="https://api-staging.us.nylas.com"
         configurationId="page-1"
-        defaultSchedulerState={{
-          configSettings: {
-            scheduler: {
-              available_days_in_future: 14,
-              min_cancellation_notice: 1,
-              min_booking_notice: 1,
-            },
-          },
-          organizer: {
-            name: "antoine",
-            email: "antoine.torossian@nylas.com",
-          },
-        }}
+        // ThemeConfig gives you an easy way to adjust colour schemes for the whole component
         themeConfig={{
           "--nylas-primary": "#d4af37", // Metallic Gold
           "--nylas-info": "#b08d57", // Light Taupe

@@ -53,7 +53,6 @@ const UseCase6 = () => {
     >
       <NylasScheduling
         css={schedulingStyles}
-        schedulerApiUrl="https://api-staging.us.nylas.com"
         configurationId="page-1"
         eventOverrides={{
           dateSelected: (event, connector) => {
