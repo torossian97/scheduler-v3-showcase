@@ -26,9 +26,12 @@ const UseCase9 = () => {
           "communications",
         ]}
         configurationId="page-1"
+        // These participants must be auth'ed to your app already
+        // You determine who you want to add. They will be used for Collective
+        // availability or round-robin, depending on the booking type
         additionalParticipants={[
           {
-            name: "Bob Thornton",
+            name: "Billy Bob",
             email: "billybobthornton@example.com",
             calendars: [
               {

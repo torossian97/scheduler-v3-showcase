@@ -17,6 +17,7 @@ const schedulingStyles = css`
   }
 `;
 
+// Method to simply mock a time in the future
 const getNearestFuture30MinuteSlot = () => {
   const date = new Date();
   const minutes = date.getMinutes();
@@ -54,11 +55,8 @@ const UseCase6 = () => {
       <NylasScheduling
         css={schedulingStyles}
         configurationId="page-1"
-        eventOverrides={{
-          dateSelected: (event, connector) => {
-            console.log(connector.schedulerStore.get("selectedTimeslot"));
-          },
-        }}
+        // Override the default selected time slot to skip straigh to the booking form
+        // On booking, this will still need to hit an available calendar slot to not error
         defaultSchedulerState={{
           showBookingForm: true,
           selectedTimeslot: {
@@ -71,8 +69,9 @@ const UseCase6 = () => {
           <InputComponent
             label="My custom text"
             required={true}
-            pattern="/Nylas/gm"
-            patternError="You must type 'Nylas'"
+            // pattern={new RegExp("Nylas", "g")}
+            // patternError="You must type Nylas"
+            // placeholder="Type Nylas"
             style={{
               paddingBottom: "15px",
             }}

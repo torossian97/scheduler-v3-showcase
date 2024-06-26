@@ -10,36 +10,11 @@ import {
 import { NylasScheduling, NylasTimeslotPicker } from "@nylas/react";
 import CustomIdentityRequestWrapper from "../mocks/custom";
 
-import { css } from "@emotion/react";
-
-// Temp styling to circumvent bug, will remove in subsequent release
-const style = css`
-  ::part(ntp__button-primary) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ::part(nbf__button-primary) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-  }
-
-  ::part(nbf__button-outline) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-  }
-`;
-
 const participants = [
   {
-    name: "John Smith",
-    email: "john.smith@example.com",
-    description: "Project Manager",
+    name: "John doe",
+    email: "johndoe@example.com",
+    description: "Product Manager",
     configId: "page-1",
   },
   {
@@ -149,7 +124,6 @@ const UseCase4 = () => {
           <NylasScheduling
             key={selectedParticipant.configId} // Use key prop to force re-render
             // Enable composable mode, allows composability in the component's slot
-            css={style}
             mode="composable"
             configurationId={selectedParticipant.configId}
             // Override the default behaviour of the timeSlotConfirmed click

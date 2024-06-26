@@ -53,7 +53,7 @@ class CustomIdentityRequestWrapper {
     // ie. from browser cookies previously set
     return {
       id: "idToken.sub",
-      email: "bob@example.com",
+      email: "johndoe@example.com",
       name: "User Name",
       provider: "google",
     };

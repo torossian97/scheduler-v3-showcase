@@ -66,6 +66,33 @@ import useCase10Code from "!!raw-loader!./pages/UseCase10.js";
 import useCase12Code from "!!raw-loader!./pages/UseCase12.js";
 import useCase13Code from "!!raw-loader!./pages/UseCase13.js";
 
+import { Global, css } from "@emotion/react";
+
+// Temp styling to circumvent bug, will remove in subsequent release
+const style = css`
+  ::part(ntp__button-primary) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto;
+    width: auto;
+  }
+
+  ::part(nbf__button-primary) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+  }
+
+  ::part(nbf__button-outline) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+  }
+`;
+
 const sections = [
   {
     title:
@@ -196,6 +223,8 @@ function App() {
   return (
     <div css={rootStyle}>
       <CssBaseline />
+      {/* Temp styling to circumvent bug, will remove in subsequent release */}
+      <Global styles={style} />
       <AppBar position="fixed" css={appBarStyle}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={toggleDrawer}>

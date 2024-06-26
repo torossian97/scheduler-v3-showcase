@@ -24,9 +24,10 @@ const UseCase5 = () => {
     >
       <NylasSchedulerEditor
         nylasApiRequest={nylasApiRequest}
+        // composable can also be used for the Editor component
+        // It's applied to the "edit page" view
         mode="composable"
         configurationId="page-1"
-        eventOverrides={{}}
       >
         <div
           style={{

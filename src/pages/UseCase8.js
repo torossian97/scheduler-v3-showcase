@@ -18,6 +18,7 @@ const UseCase8 = () => {
     >
       <NylasSchedulerEditor
         nylasApiRequest={nylasApiRequest}
+        // Hide Whatever editor tabs you like
         hideEditorTabs={[
           "eventInfo",
           "bookingOptions",
@@ -25,18 +26,6 @@ const UseCase8 = () => {
           "availability",
         ]}
         configurationId="page-1"
-        additionalParticipants={[
-          {
-            name: "Bob Thornton",
-            email: "billybobthornton@example.com",
-            calendars: [
-              {
-                id: "123456",
-                name: "Vacation Calendar",
-              },
-            ],
-          },
-        ]}
       />
     </Box>
   );
