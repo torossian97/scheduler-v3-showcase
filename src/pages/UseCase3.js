@@ -14,6 +14,26 @@ const schedulingStyles = css`
   ::part(ndp__date--selected) {
     background: #e6cfa3;
   }
+
+  ::part(ntp__button-primary) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ::part(nbf__button-primary) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+  }
+
+  ::part(nbf__button-outline) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+  }
 `;
 
 const UseCase3 = () => {
