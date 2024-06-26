@@ -19,6 +19,16 @@ class CustomIdentityRequestWrapper {
         }
       );
 
+      // const response = await fetch(`http://localhost:3001/api/${args.path}`, {
+      //   method: args.method,
+      //   body: JSON.stringify(args.body),
+      //   headers: {
+      //     ...args.headers,
+      //     Authorization: `Bearer ${this.accessToken}`,
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+
       // Check if the response is not okay (e.g., 404, 500)
       if (!response.ok) {
         console.error(`Error: ${response.status} ${response.statusText}`);
@@ -27,6 +37,7 @@ class CustomIdentityRequestWrapper {
 
       // Parse the response
       const data = await response.json();
+      console.log(data);
       return [data, null];
     } catch (error) {
       console.error("Fetch error:", error);
@@ -39,9 +50,10 @@ class CustomIdentityRequestWrapper {
    */
   async currentUser() {
     // IMPLEMENT: Get the logged in user's ID token and return the user information
+    // ie. from browser cookies previously set
     return {
       id: "idToken.sub",
-      email: "user_email@example.com",
+      email: "bob@example.com",
       name: "User Name",
       provider: "google",
     };

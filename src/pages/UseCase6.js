@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Box } from "@mui/material";
-import { NylasScheduling } from "@nylas/react";
+import {
+  NylasScheduling,
+  InputComponent,
+  CheckboxComponent,
+} from "@nylas/react";
 
 const schedulingStyles = css`
   ::part(nbf__button-outline) {
@@ -62,19 +66,33 @@ const UseCase6 = () => {
             start_time,
             end_time,
           },
-          configSettings: {
-            scheduler: {
-              available_days_in_future: 14,
-              min_cancellation_notice: 1,
-              min_booking_notice: 1,
-            },
-          },
-          organizer: {
-            name: "antoine",
-            email: "antoine.torossian@nylas.com",
-          },
         }}
-      />
+      >
+        <div slot="custom-booking-form">
+          <InputComponent
+            label="My custom text"
+            required={true}
+            pattern="/Nylas/gm"
+            patternError="You must type 'Nylas'"
+            style={{
+              paddingBottom: "15px",
+            }}
+          />
+          <CheckboxComponent
+            label="my custom checkbox"
+            paddingTop="30px"
+            style={{
+              paddingBottom: "15px",
+            }}
+          />
+          <InputComponent
+            label="My custom text"
+            style={{
+              paddingBottom: "15px",
+            }}
+          />
+        </div>
+      </NylasScheduling>
     </Box>
   );
 };

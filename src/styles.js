@@ -8,6 +8,15 @@ export const rootStyle = css({
   backgroundColor: "#fff",
 });
 
+export const drawerStyle = css({
+  width: 250,
+  marginTop: "75px",
+});
+
+export const activeListItemStyle = css({
+  backgroundColor: "#e0e0e0",
+});
+
 export const appBarStyle = css({
   zIndex: 1201, // MUI default AppBar zIndex
   background: "white",

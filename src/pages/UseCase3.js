@@ -30,7 +30,7 @@ const UseCase3 = () => {
       <NylasScheduling
         css={schedulingStyles}
         schedulerApiUrl="https://api-staging.us.nylas.com"
-        configurationId="scenario-1"
+        configurationId="page-1"
         defaultSchedulerState={{
           configSettings: {
             scheduler: {

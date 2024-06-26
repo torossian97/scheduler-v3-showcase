@@ -4,13 +4,23 @@ import { bookings } from "./bookings";
 
 // Helper function to generate unique booking IDs
 const generateId = () => `booking-${Math.random().toString(36).substr(2, 9)}`;
+const findConfigurationById = (id) =>
+  configurations.find((config) => config.id === id);
 
 export const handlers = [
-  // Intercept "GET https://example.com/user" requests...
   http.get(
     "https://api-staging.us.nylas.com/v3/scheduling/availability",
     ({ request }) => {
       const params = new URL(request.url).searchParams;
+
+      const configurationId = params.get("configuration_id");
+
+      const configuration = configurations.find(
+        (config) => config.id === configurationId
+      );
+      const eventDuration = configuration
+        ? configuration.availability.duration_minutes
+        : 30;
 
       const startTimeParam = params.get("start_time");
       const endTimeParam = params.get("end_time");
@@ -57,7 +67,7 @@ export const handlers = [
         while (currentDate < end) {
           const startSlot = new Date(currentDate);
           const endSlot = new Date(currentDate);
-          endSlot.setMinutes(endSlot.getMinutes() + 30);
+          endSlot.setMinutes(endSlot.getMinutes() + eventDuration);
 
           slots.push({
             emails,
@@ -65,7 +75,7 @@ export const handlers = [
             end_time: Math.floor(endSlot.getTime() / 1000), // Convert to UNIX timestamp
           });
 
-          currentDate.setMinutes(currentDate.getMinutes() + 30);
+          currentDate.setMinutes(currentDate.getMinutes() + eventDuration);
           if (currentDate.getHours() === 0) {
             currentDate.setHours(9, 0, 0, 0); // Start from 9 AM on next day
           }
@@ -86,15 +96,58 @@ export const handlers = [
     }
   ),
 
-  // GET /ui-settings
-  http.get("https://api-staging.us.nylas.com/v3/scheduling/ui-settings", () => {
-    // ...and respond to them using this JSON response.
-    return HttpResponse.json({
-      id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d",
-      firstName: "John",
-      lastName: "Maverick",
-    });
-  }),
+  // GET /v3/scheduling/ui-settings
+  http.get(
+    "https://api-staging.us.nylas.com/v3/scheduling/ui-settings",
+    ({ request }) => {
+      const params = new URL(request.url).searchParams;
+      const configurationId = params.get("configuration_id");
+
+      if (!configurationId) {
+        return HttpResponse.json(
+          { error: "Missing configuration_id parameter" },
+          { status: 400 }
+        );
+      }
+
+      const configuration = findConfigurationById(configurationId);
+
+      if (!configuration) {
+        return HttpResponse.json(
+          { error: "Configuration not found" },
+          { status: 404 }
+        );
+      }
+
+      const response = {
+        request_id: "505ff7c0-b7e5-4c83-bd3e-eefda5e7ae5f",
+        data: {
+          scheduler: {
+            available_days_in_future:
+              configuration.scheduler.available_days_in_future,
+            min_cancellation_notice:
+              configuration.scheduler.min_cancellation_notice,
+            min_booking_notice: configuration.scheduler.min_booking_notice,
+            rescheduling_url: configuration.scheduler.rescheduling_url,
+            cancellation_url: configuration.scheduler.cancellation_url,
+            hide_rescheduling_options:
+              configuration.scheduler.hide_rescheduling_options,
+            hide_cancellation_options:
+              configuration.scheduler.hide_cancellation_options,
+            hide_additional_guests:
+              configuration.scheduler.hide_additional_guests,
+            cancellation_policy: configuration.scheduler.cancellation_policy,
+          },
+          organizer: {
+            email: configuration.participants[0].email,
+            name: configuration.participants[0].name,
+          },
+        },
+      };
+
+      return HttpResponse.json(response);
+    }
+  ),
 
   // POST /v3/scheduling/bookings
   http.post(
@@ -119,12 +172,16 @@ export const handlers = [
       }
 
       const newBooking = {
-        id: generateId(),
+        booking_id: generateId(),
         email: guest.email,
         name: guest.name,
         start_time,
         end_time,
         status: "confirmed",
+        organizer: {
+          email: "antoine.torossian@nylas.com",
+          name: "Antoine Torossian",
+        },
       };
 
       bookings.push(newBooking);
@@ -177,8 +234,10 @@ export const handlers = [
     ({ params }) => {
       const { booking_id } = params;
 
+      console.log(bookings);
+
       const bookingIndex = bookings.findIndex(
-        (booking) => booking.id === booking_id
+        (booking) => booking.booking_id === booking_id
       );
       if (bookingIndex === -1) {
         return HttpResponse.json(
@@ -198,10 +257,10 @@ export const handlers = [
     const headers = request.headers;
     const params = new URL(request.url).searchParams;
     headers.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
+      //console.log(`${key}: ${value}`);
     });
     params.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
+      //console.log(`${key}: ${value}`);
     });
 
     const mockResponse = {

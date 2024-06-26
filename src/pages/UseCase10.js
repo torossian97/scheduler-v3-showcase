@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { NylasSchedulerEditor } from "@nylas/react";
 import CustomIdentityRequestWrapper from "../mocks/custom";
 
-const UseCase2 = () => {
+const UseCase7 = () => {
   const nylasApiRequest = new CustomIdentityRequestWrapper("MOCK_ACCESS_TOKEN");
 
   return (
@@ -17,23 +17,29 @@ const UseCase2 = () => {
       }}
     >
       <NylasSchedulerEditor
-        // For your own, custom authentication
         nylasApiRequest={nylasApiRequest}
-        // For OOTB, hosted authentication
-        /*nylasSessionsConfig={{
-          clientId: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX",
-          redirectUri: `${window.location.origin}`,
-          domain: "https://api-staging.us.nylas.com/v3",
-          hosted: true,
-        }}*/
-        defaultSchedulerConfigState={{
-          selectedConfiguration: {
-            requires_session_auth: false, // Set to 'false' to create a public configuration
+        hideEditorTabs={[
+          "eventInfo",
+          "bookingOptions",
+          "bookingForm",
+          "communications",
+        ]}
+        configurationId="page-3"
+        additionalParticipants={[
+          {
+            name: "Jiminy Cricket",
+            email: "cricketboy@example.com",
+            calendars: [
+              {
+                id: "123456",
+                name: "Vacation Calendar",
+              },
+            ],
           },
-        }}
+        ]}
       />
     </Box>
   );
 };
 
-export default UseCase2;
+export default UseCase7;
