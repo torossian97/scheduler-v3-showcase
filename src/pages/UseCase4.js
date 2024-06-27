@@ -12,7 +12,7 @@ import CustomIdentityRequestWrapper from "../mocks/custom";
 
 const participants = [
   {
-    name: "John doe",
+    name: "John Doe",
     email: "johndoe@example.com",
     description: "Product Manager",
     configId: "page-1",
