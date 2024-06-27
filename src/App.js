@@ -135,27 +135,27 @@ const sections = [
   },
   {
     title:
-      "...and it will appear in both the Scheduler confirmation emails, as well as booking objects for historical purposes.",
-    menuTitle: "Emails",
+      "...and it appears in both the Scheduler confirmation emails, and in booking objects for historical purposes.",
+    menuTitle: "Email Confirmations",
     Component: UseCase7,
     code: useCase7Code,
   },
   {
-    title: "Additional form fields can also be added through the editor.", //, along with other communication options for Organizers.",
+    title: "You can add more form fields using the editor.", //, along with other communication options for Organizers.",
     menuTitle: "Communication Settings",
     Component: UseCase8,
     code: useCase8Code,
   },
   {
     title:
-      "Now let's dive into multi-participant settings, which allow you to leverage Collective availability for your page...",
+      "Now let's dive into multi-participant settings. With Scheduler, you can use Nylas's Collective availability for your page...",
     menuTitle: "Collective Meetings",
     Component: UseCase9,
     code: useCase9Code,
   },
   {
     title:
-      "...as well as Round-Robin, with booking calendars added per-participant when serving a Round-Robin configuration.",
+      "...as well as Round-Robin scheduling. In this configuration, booking calendars appear for each possible participant.",
     menuTitle: "Round-Robin Settings",
     Component: UseCase10,
     code: useCase10Code,
