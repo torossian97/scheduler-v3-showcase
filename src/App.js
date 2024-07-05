@@ -91,6 +91,11 @@ const style = css`
     justify-content: center !important;
     height: auto !important;
   }
+
+  html,
+  body {
+    font-family: "Poppins", sans-serif;
+  }
 `;
 
 const sections = [

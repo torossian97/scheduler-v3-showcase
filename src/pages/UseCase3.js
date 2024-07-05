@@ -12,7 +12,11 @@ const schedulingStyles = css`
 
   /* background */
   ::part(ndp__date--selected) {
-    background: #e6cfa3;
+    background: #db2777;
+  }
+
+  ::part(nbf__button-primary) {
+    background: #eb5da6;
   }
 `;
 
@@ -32,26 +36,26 @@ const UseCase3 = () => {
         configurationId="page-1"
         // ThemeConfig gives you an easy way to adjust colour schemes for the whole component
         themeConfig={{
-          "--nylas-primary": "#d4af37", // Metallic Gold
-          "--nylas-info": "#b08d57", // Light Taupe
-          "--nylas-success": "#c2b280", // Sand
-          "--nylas-warning": "#ccb400", // Lemon Curry
-          "--nylas-error": "#c85a54", // Terra Cotta
-          "--nylas-error-pressed": "#ab4e52", // Persian Red
-          "--nylas-base-0": "#fffaf0", // Floral White
-          "--nylas-base-25": "#fff5e1", // Blanched Almond
-          "--nylas-base-50": "#fef3c7", // Moccasin
-          "--nylas-base-100": "#f5deb3", // Wheat
-          "--nylas-base-200": "#eed9b6", // Almond
-          "--nylas-base-300": "#e6cfa3", // Champagne
-          "--nylas-base-400": "#d2baa0", // Pale Silver
-          "--nylas-base-500": "#c7a77b", // Khaki (Web)
-          "--nylas-base-600": "#b39067", // Light French Beige
-          "--nylas-base-700": "#9e7e53", // Camel
-          "--nylas-base-800": "#8a6e45", // Antique Brass
-          "--nylas-base-900": "#735c37", // Dark Gold
-          "--nylas-base-950": "#5c482b", // Dark Lava
-          "--nylas-font-family": "'Inter', sans-serif",
+          "--nylas-primary": "#DB2777", // Brand color
+          "--nylas-info": "#6EC1E4", // Complementary color
+          "--nylas-success": "#68B684", // Complementary color
+          "--nylas-warning": "#FFC857", // Complementary color
+          "--nylas-error": "#F45B69", // Complementary color
+          "--nylas-error-pressed": "#c24758", // Darker shade of complementary color
+          "--nylas-base-0": "#fce7ef", // Very light shade of brand color
+          "--nylas-base-25": "#f8c3d8", // Light shade of brand color
+          "--nylas-base-50": "#f4a1c2", // Light shade of brand color
+          "--nylas-base-100": "#ffffff", // Light shade of brand color
+          "--nylas-base-200": "#eb5da6", // Brand color
+          "--nylas-base-300": "#db2777", // Brand color
+          "--nylas-base-400": "#c21b67", // Darker shade of brand color
+          "--nylas-base-500": "#a91757", // Darker shade of brand color
+          "--nylas-base-600": "#891343", // Darker shade of brand color
+          "--nylas-base-700": "#68102f", // Darker shade of brand color
+          "--nylas-base-800": "#470c1b", // Darker shade of brand color
+          "--nylas-base-900": "#250709", // Darkest shade of brand color
+          "--nylas-base-950": "#120305", // Darkest shade of brand color
+          "--nylas-font-family": '"Poppins", sans-serif',
           "--nylas-border-radius": "0.25rem",
         }}
       />

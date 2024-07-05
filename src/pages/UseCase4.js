@@ -67,7 +67,7 @@ const UseCase4 = () => {
         }}
       >
         <Typography variant="h4" gutterBottom>
-          Schedule a meeting today with...
+          Schedule an interview today with...
         </Typography>
         <List sx={{ flex: 1 }}>
           {participants.map((participant) => (
@@ -125,6 +125,7 @@ const UseCase4 = () => {
             key={selectedParticipant.configId} // Use key prop to force re-render
             // Enable composable mode, allows composability in the component's slot
             mode="composable"
+            themeConfig={{ "--nylas-font-family": '"Poppins", sans-serif' }}
             configurationId={selectedParticipant.configId}
             // Override the default behaviour of the timeSlotConfirmed click
             // Use connector to directly book a time, handle the response

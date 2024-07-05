@@ -55,6 +55,7 @@ const UseCase6 = () => {
       <NylasScheduling
         css={schedulingStyles}
         configurationId="page-1"
+        themeConfig={{ "--nylas-font-family": '"Poppins", sans-serif' }}
         // Override the default selected time slot to skip straigh to the booking form
         // On booking, this will still need to hit an available calendar slot to not error
         defaultSchedulerState={{

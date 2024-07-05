@@ -14,7 +14,10 @@ const UseCase1 = () => {
       }}
     >
       {/* embed the scheduling component and feed it a configuration ID created through the Editor or /configurations endpoints */}
-      <NylasScheduling configurationId="page-1" />
+      <NylasScheduling
+        configurationId="page-1"
+        themeConfig={{ "--nylas-font-family": '"Poppins", sans-serif' }}
+      />
     </Box>
   );
 };
