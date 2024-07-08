@@ -68,7 +68,7 @@ const UseCase6 = () => {
       >
         <div slot="custom-booking-form">
           <InputComponent
-            label="My custom text"
+            label="Tell us why you're applying to this role"
             required={true}
             // pattern={new RegExp("Nylas", "g")}
             // patternError="You must type Nylas"
@@ -78,14 +78,8 @@ const UseCase6 = () => {
             }}
           />
           <CheckboxComponent
-            label="my custom checkbox"
+            label="I am legally authorized to work in the United States"
             paddingTop="30px"
-            style={{
-              paddingBottom: "15px",
-            }}
-          />
-          <InputComponent
-            label="My custom text"
             style={{
               paddingBottom: "15px",
             }}
